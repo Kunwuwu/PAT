@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdio>
 
+//备注：字符串处理
+
 using namespace std;
 
 int main() {
