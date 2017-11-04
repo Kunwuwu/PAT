@@ -2,6 +2,7 @@
 #include <cstdio>
 using namespace std;
 
+// 备注：模拟
 // exponents and coefficients 指数和系数
 
 int main()
