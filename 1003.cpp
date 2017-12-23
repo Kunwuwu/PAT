@@ -54,7 +54,7 @@ MGraph CreateGraph(int Nv, int Ne)
     {
         scanf("%d %d %d", &v, &w, &data);
         graph->G[v][w] = data;
-        graph->G[w][v] = data;                    // 为毛我没看到题目里面说的是无权图，，，
+        graph->G[w][v] = data;                    // 为毛我没看到题目里面说的是无权图，浪费好几个小时
     }
     return *graph;
 }
