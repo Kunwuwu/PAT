@@ -34,7 +34,7 @@ void pre(int root, int start, int end)               /* 这里说明一下： */
 {                                                    /* root是在根节点后序序列中确定的位置，i是根节点在中序的位置 */
     if(start > end)                                  /* end是在中序中的当前序列的结尾的位置 */
         return ;                                     /* start是在中序中的当前序列的起始的位置 */
-    int i = start;
+    int i = start;                                   /* 左右子树结点的个数也是根据中序确定的 */
     while(i < end && in[i] != post[root])
         i++;
     cout << post[root] << "\t";
