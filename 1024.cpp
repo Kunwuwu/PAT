@@ -16,7 +16,7 @@ int main()
     fill(dbnums, dbnums + 25, '0');
     for(int i = nums.length() - 1; i >= 0; i--)
     {
-        if((dbnums[index] + 2 * (nums[i] - '0') - '0') < 10)            /* 判断的时候也要抓化成数字 */
+        if((dbnums[index] + 2 * (nums[i] - '0') - '0') < 10)            /* 判断的时候也要转化成数字 */
         {
             dbnums[index] += 2 * (nums[i] - '0');          /* 必须转化为数字相加 */
             if(i == 0)
