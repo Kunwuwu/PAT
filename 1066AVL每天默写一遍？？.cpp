@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -82,6 +83,31 @@ avl insert(int x, avl root)
     return root;
 }
 
+void order(avl root)                                       /* 中序 */
+{
+    if(root == NULL)
+        return ;
+    order(root->left);
+    cout << root->data << "\t";
+    order(root->right);
+}
+
+void level(avl root)                                       /* 层序 */
+{
+    queue<avl> q;
+    q.push(root);
+    while(!q.empty())
+    {
+        avl temp = q.front();
+        q.pop();
+        cout << temp->data << "\t";
+        if(temp->left != NULL)
+            q.push(temp->left);
+        if(temp->right != NULL)
+            q.push(temp->right);
+    }
+}
+
 int main()
 {
     int n, x;
@@ -92,6 +118,10 @@ int main()
         cin >> x;
         root = insert(x, root);
     }
-    cout << root->data;
+    cout << "root：" << root->data << endl;
+    cout << "中序：" << endl;
+    order(root);
+    cout << "\n层序：" << endl;
+    level(root);
     return 0;
 }
