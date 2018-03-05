@@ -88,7 +88,7 @@ avl insertx(avl root, int x)
     }
 }
 
-void pre(avl root, int index)
+void pre(avl root, int index)                             /* 考虑尝试用层序遍历的，但是不知道怎么判断是否是完全二叉树 */
 {
     if(root == NULL)
         return ;
