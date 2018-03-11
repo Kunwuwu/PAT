@@ -10,11 +10,11 @@ class stu
 {
 public:
     string id;
-    int mscore = -1;                                      /* 开始没注意到这需要初始化为-1，一直输出不正确 */
-    int fscore = -1;
-    int pscore = -1;
-    int grade = -1;
-    bool show = false;
+    int mscore;                                           /* 开始没注意到这需要初始化为-1，一直输出不正确 */
+    int fscore;
+    int pscore;
+    int grade;
+    bool show;
 
 public:
     void cal()
@@ -31,7 +31,7 @@ public:
     }
 };
 
-map<string, int> idtonum;                               
+map<string, int> idtonum;
 vector<stu> stus(1);
 int p, m, n;
 
@@ -55,6 +55,10 @@ int main()
         if(idtonum[tstu.id] == 0)
         {
             idtonum[tstu.id] = index++;
+            tstu.mscore = -1;
+            tstu.fscore = -1;
+            tstu.grade = 0.0;
+            tstu.show = false;
             stus.push_back(tstu);
         }
         else
@@ -67,6 +71,10 @@ int main()
         if(idtonum[tstu.id] == 0)
         {
             idtonum[tstu.id] = index++;
+            tstu.pscore = -1;
+            tstu.fscore = -1;
+            tstu.grade = 0.0;
+            tstu.show = false;
             stus.push_back(tstu);
         }
         else
@@ -79,6 +87,10 @@ int main()
         if(idtonum[tstu.id] == 0)
         {
             idtonum[tstu.id] = index++;
+            tstu.mscore = -1;
+            tstu.pscore = -1;
+            tstu.grade = 0.0;
+            tstu.show = false;
             stus.push_back(tstu);
         }
         else
