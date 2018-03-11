@@ -35,7 +35,7 @@ int main()
     cout << count;
     for(int i = 2009; i >= 0; i--)
     {
-        if(poly3[i] != 0.0)                           // 这里是必须0.0，每次都忘哎
+        if(poly3[i] != 0.0)                           // 这里是必须0.0，每次都忘哎（有可能是负数）
             printf(" %d %.1lf", i, poly3[i]);
     }
     return 0;
