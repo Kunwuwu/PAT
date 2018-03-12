@@ -1,72 +1,66 @@
-/* 可以说是很痛苦了，第二个测试用例一直通不过，估计就是因为我省了一个循环，但是找不出思路的错误在哪 */
-/* 立下flag，有时间一定找出不过的原因 */
-
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
-typedef struct Student
+typedef struct
 {
-public:
     int id;
-    int score[4];
-    int rank;
-    char lesson;
-    void ave()
-    {    /* 这里计算平均值记得四舍五入 */
-        score[0] = (score[1] + score[2] + score[3]) / 3.0 + 0.5;
-    }
-}Stu[2005];
+    int course[4];
+    int ranklist[4];
+}stu;
 
-Stu stu;
+vector<stu> v;
+int index, n, q;
+char course[] = {'A', 'C', 'M', 'E'};                     /* 每门课按顺序排列，方便计算和排序 */
+map<int, int> dict;                                       /* 记录最后一次排序时学生的位置 */
 
-int flag = -1;
-
-bool cmp(Student s1, Student s2)
+bool cmp(stu a, stu b)                                    /* 讲真用数组表示课程的方法简直就是神作，简化好多 */
 {
-    return s1.score[flag] > s2.score[flag];
+    return a.course[index] > b.course[index]; 
 }
-
-int exist[1000000] = {0};
 
 int main()
 {
-    int n, m, ID[2001];
-    cin >> n >> m;
-    char lesson[] = {'A', 'C', 'M', 'E'};
-    for(int i = 0; i < n; i++)
+    cin >> n >> q;
+    v.resize(n + 1);
+    for(int i = 1; i <= n; i++)
     {
-        cin >> stu[i].id;
-        cin >> stu[i].score[1] >> stu[i].score[2] >> stu[i].score[3];
-        stu[i].ave();
+        scanf("%d %d %d %d", &v[i].id, &v[i].course[1], &v[i].course[2], &v[i].course[3]);
+        v[i].course[0] = (v[i].course[1] + v[i].course[2] + v[i].course[3]) / 3;
     }
-//    cout << stu[0].score[0] << endl;                           /* 测试输入 */
-    for(int i = 0; i < m; i++)
+    for(index = 0; index < 4; index++)
     {
-        cin >> ID[i];
-    }
-    for(flag = 0; flag < 4; flag++)
-    {
-        sort(stu, stu + n, cmp);           // 按科目A C M E的顺序给学生排序
-        for(int i = 0; i < n; i++)
-        {                                  // 一旦发现排名可以更小，则更新排名和对应的排名种类
-            if(stu[i].rank <= 0 || (stu[i].rank > i + 1))
-            {
-                stu[i].rank = i + 1;
-                stu[i].lesson = lesson[flag];
-                if(i > 0 && stu[i].score[flag] == stu[i-1].score[flag])  // 如果出现并列的情况
-                    stu[i].rank = stu[i-1].rank;                         // 则排名与前一名相同
-            }
-            exist[stu[i].id] = i + 1;                                    // 记录是否存在这个id并且存储这个id最后的位置
+        sort(v.begin() + 1, v.end(), cmp);
+        for(int i = 1; i <= n; i++)
+        {
+            if(v[i].course[index] == v[i-1].course[index])/* 考虑并列的情况 */
+                v[i].ranklist[index] = v[i-1].ranklist[index];
+            else
+                v[i].ranklist[index] = i;
+            dict[v[i].id] = i;                            /* 记录下最后一次排序后学生的位置 */
         }
     }
-    for(int i = 0; i < m; i++)
+    int id;
+    for(int i = 0; i < q; i++)
     {
-        int temp = exist[ID[i]];
-        if(temp)
-            printf("%d %c\n", stu[temp-1].rank, stu[temp-1].lesson);
+        scanf("%d", &id);
+        int ti = dict[id];
+        if(ti)
+        {
+            int minrank = 9999999999, minindex = -1;
+            for(int j = 0; j < 4; j++)                    /* 找到排名最高的课程 */
+            {
+                if(v[ti].ranklist[j] < minrank)
+                {
+                    minindex = j;
+                    minrank = v[ti].ranklist[j];
+                }
+            }
+            printf("%d %c\n", minrank, course[minindex]);
+        }
         else
             printf("N/A\n");
     }
