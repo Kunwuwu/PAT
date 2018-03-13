@@ -1,70 +1,60 @@
+#include <cstdio>
 #include <iostream>
 #include <map>
 #include <set>
-#include <cstdio>
-#include <string>
 
 using namespace std;
 
-// 全局变量的定义
-int n, m, id;
-map<string, set<int>> title, author, kw, puber, years;
+map<string, set<int>> dict;
 
-// 函数原型
-void PrintQuery(map<string, set<int>> &m, string &temp);
+int n, m;
 
 int main()
 {
     cin >> n;
-    string ttitle, tauthor, tkw, tpuber, tyear;
-    for(int i = 0; i < n ; i++)
+    for(int i = 0; i < n; i++)
     {
+        string temp;
+        int id;                                           /* id */
         scanf("%d\n", &id);
-        getline(cin, ttitle);
-        title[ttitle].insert(id);
-        getline(cin, tauthor);
-        author[tauthor].insert(id);
-        while(cin >> tkw)
+        getline(cin , temp);                              /* title */
+        dict[temp].insert(id);
+        getline(cin , temp);                              /* author */
+        dict[temp].insert(id);
+        getline(cin , temp);                              /* keywords */
+        string s;
+        for(int i = 0; i < temp.length(); i++)            /* 分割keywords */
         {
-            kw[tkw].insert(id);
-            char ch = getchar();
-            if(ch == '\n')
-                break;
+            if(temp[i] == ' ')
+            {
+                dict[s].insert(id);
+                s.clear();
+            }
+            else
+                s.push_back(temp[i]);
         }
-        getline(cin, tpuber);
-        puber[tpuber].insert(id);
-        getline(cin, tyear);
-        years[tyear].insert(id);
+        dict[s].insert(id);                               /* 注意最后的keywords */
+        getline(cin , temp);                              /* 出版社 */
+        dict[temp].insert(id);
+        getline(cin , temp);                              /* 年份 */
+        dict[temp].insert(id);                            /* 放入到对应的set中 */
     }
     cin >> m;
-    int num;
-    string temp;
-    for(int i = 0; i < m; i++)
+    for(int i = 0; i < m; i++)                            /* 查询操作 */
     {
+        int num;
+        string temp;
         scanf("%d: ", &num);
         getline(cin, temp);
-        cout << num << ": " << temp << endl;
-        if(num == 1)
-            PrintQuery(title, temp);
-        else if(num == 2)
-            PrintQuery(author, temp);
-        else if(num == 3)
-            PrintQuery(kw, temp);
-        else if(num == 4)
-            PrintQuery(puber, temp);
-        else if(num == 5)
-            PrintQuery(years, temp);
+        printf("%d: ", num);
+        cout << temp << "\n";
+        if(dict[temp].size() > 0)
+        {
+            for(auto it = dict[temp].begin(); it != dict[temp].end(); it++)
+                printf("%07d\n", *it);
+        }
+        else
+            printf("Not Found\n");
     }
     return 0;
-}
-
-void PrintQuery(map<string, set<int>> &m, string &temp)
-{
-    if(m[temp].size() > 0)
-    {
-        for(auto it = m[temp].begin(); it != m[temp].end(); it++)
-            printf("%07d\n", *it);
-    }
-    else
-        cout << "Not Found" << endl;
 }
