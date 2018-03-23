@@ -69,7 +69,7 @@ int findMaxDigit(char n2[])
 int cmp(char n2[], long long radix, long long deOfn1)
 {
     long long deOfn2 = convertToTen(n2, radix);
-    if(deOfn2 < 0)                                        // 给我点时间思考一下，谢谢
+    if(deOfn2 < 0)                                        // 这里主要考虑的是longlong溢出的时候为负数，即这时deOfn2肯定大于deOfn1
         return 1;
     if(deOfn2 < deOfn1)                                   // 表示进制在radix的右边
         return -1;
