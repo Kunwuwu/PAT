@@ -17,7 +17,7 @@ int main()
             ans = "true";
         else if(a < 0 && b < 0 && sum >= 0)             /* a,b为负，sum溢出，sum应该小于c，sum实际为非负数， */
             ans = "false";
-        else if(sum > c)
+        else if(sum > c)                                /* 比较有意思的是这里的sum直接用a+b的话只能过一个测点 */
             ans = "true";
         else
             ans = "false";
