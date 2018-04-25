@@ -24,11 +24,11 @@ vector<school> schs;
 vector<app> stus;
 int n, m, k;
 
-bool cmp1(app a, app b)
+bool cmp1(app a, app b)                                        /* 一直段错误段错误，折腾了一个小时 */
 {
     if(a.final != b.final)
         return a.final > b.final;
-    else
+    else                                                       /* 这里由于cmp未遵循严格弱序，如果判断a.ge==b.ge，会发生段错误！！！ */
         return a.ge > b.ge;
 }
 
