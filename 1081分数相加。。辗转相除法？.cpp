@@ -1,54 +1,38 @@
 #include <cstdio>
 #include <iostream>
-#include <vector>
-#include <cmath>
+#include <algorithm>
+
+#define ll long long
 
 using namespace std;
 
-long long n;
-
-int gcd(long long a, long long b)                               /* 辗转相除法？？？ */
-{
-    if(b == 0)
-        return abs(a);
-    else
-        return gcd(b, a % b);
+ll gcd(ll a, ll b) {                                      /* 辗转相除法 */
+    if (b == 0) return a;
+    else return gcd(b, a % b);
 }
 
-int main()
-{
-    long long suma = 0, sumb = 1;
+ll n;
+
+int main() {
     cin >> n;
-    for(int i = 0; i < n; i++)
-    {
-        long long a, b;
-        scanf("%lld/%lld", &a, &b);
-        int gcdvalue = gcd(a, b);
-        a = a / gcdvalue;
-        b = b / gcdvalue;
-        suma = suma * b + sumb * a;
-        sumb = sumb * b;
-        gcdvalue = gcd(suma, sumb);
-        suma /= gcdvalue;
-        sumb /= gcdvalue;
+    ll a = 0, b = 1;
+    while (n--) {
+        ll ta, tb, suma, sumb;
+        scanf("%lld/%lld", &ta, &tb);
+        sumb = tb * b / gcd(tb, b);                     /* 确定通分分母并化简 */
+        suma = a * (sumb / b) + ta * (sumb / tb);       /* 确定分子 */
+        ll tgcd = gcd(suma, sumb);                      /* 化简分母分子 */
+        a = suma / tgcd;
+        b = sumb / tgcd;
     }
-    long long integer = suma / sumb;
-    long long a = suma % sumb;
-    int gcdvalue = gcd(a, sumb);
-    a /= gcdvalue;
-    sumb /= gcdvalue;
-    if(integer == 0)
-    {
-        if(a != 0)
-            printf("%lld/%lld", a, sumb);
-    }
-    else
-    {
-        printf("%lld", integer);
-        if(a != 0)
-            printf(" %lld/%lld", a, sumb);
-    }
-    if(integer == 0 && a == 0)
+    ll intp = a / b;
+    ll top = a - intp * b;
+    if (intp != 0)
+        printf("%lld", intp);
+    if (intp != 0 && top != 0) printf(" ");
+    if (top != 0)
+        printf("%lld/%lld", top, b);
+    if (intp == 0 && top == 0)
         printf("0");
     return 0;
 }
